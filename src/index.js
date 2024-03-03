@@ -59,7 +59,6 @@ function openImgHandler(evt) { // обработчик попапа карточ
     cardDescription.textContent = evt.target.alt;
     openModal(popupCardImg)
 };
-// addForm.addEventListener('submit', openImgHandler) // submit попапа карточки
 
 profileEditBtn.addEventListener('click', () => { // Слушатель на кнопку редактирования профиля
     nameInput.value = titleElement.textContent;
