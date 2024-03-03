@@ -17,31 +17,29 @@ const jobInput = formEditProfile.description; // input занятие
 const newPlaceBtn = document.querySelector('.profile__add-button'); // кнопка +
 const popupNewCard = document.querySelector('.popup_type_new-card'); // попап новой карточки
 const addForm = document.forms['new-place']; // форма новой карточки
-// const popupCardName = formNewPlace.elements['place-name']; // название картинки карточки
-// const popupCardUrl = formNewPlace.elements['link']; // ссылка картинки карточки
 
 const popupCardImg = document.querySelector('.popup_type_image'); // попап карточки при клике
 const cardName = popupCardImg.querySelector('.popup__image'); // картинка карточки при клике
 const cardDescription = popupCardImg.querySelector('.popup__caption'); // описание карточки при клике
 
 
-for (let elt of initialCards) { // добавление карточек из initialCards
-    cardList.append(createCard(elt, deleteCard, likeCard, openImgHandler))
+for (let element of initialCards) { // добавление карточек из initialCards
+    cardList.append(createCard(element, deleteCard, likeCard, openImgHandler))
 };
 
 for (let popup of popups) { // добавление анимации попапам
     popup.classList.add('popup_is-animated');
 }
 
-function formEditProfileSubmit(evt) { // редактирование профиля
+function submitEditProfile(evt) { // редактирование профиля
     evt.preventDefault();
     titleElement.textContent = nameInput.value;
     descriptionElement.textContent = jobInput.value;
     closeModal(popupEdit)
 };
-formEditProfile.addEventListener('submit', formEditProfileSubmit); // submit редактирования профиля
+formEditProfile.addEventListener('submit', submitEditProfile); // submit редактирования профиля
 
-function formNewPlaceSubmit(evt) { // добавление новой карточки
+function submitNewPlace(evt) { // добавление новой карточки
     evt.preventDefault();
     const item = {
         name: evt.target['place-name'].value,
@@ -51,7 +49,7 @@ function formNewPlaceSubmit(evt) { // добавление новой карто
     evt.target.reset();
     closeModal(popupNewCard)
 }
-addForm.addEventListener('submit', formNewPlaceSubmit) // submit добавления карточки
+addForm.addEventListener('submit', submitNewPlace) // submit добавления карточки
 
 function openImgHandler(evt) { // обработчик попапа карточки при клике
     cardName.alt = evt.target.alt;
