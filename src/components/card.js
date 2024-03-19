@@ -1,12 +1,12 @@
-const deleteCard = evt => { // Удаление карточки
+export const deleteCard = evt => { // Удаление карточки
     evt.closest('.card').remove();
 };
 
-function likeCard(evt) { // обработчик лайка карточки
+export function likeCard(evt) { // обработчик лайка карточки
     evt.classList.toggle('card__like-button_is-active');
 }
 
-function createCard ( // Создание карточки
+export function createCard ( // Создание карточки
     item, delCallback, likeCallback, openImgHandler
     ) {
     const cardTemplate = document.querySelector('#card-template').content;
@@ -26,4 +26,3 @@ function createCard ( // Создание карточки
     return cardElement
 };
 
-export { deleteCard, likeCard, createCard}

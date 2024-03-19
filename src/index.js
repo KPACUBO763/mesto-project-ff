@@ -2,6 +2,7 @@ import './pages/index.css';
 import {initialCards} from './components/cards.js';
 import { deleteCard, likeCard, createCard } from './components/card.js';
 import { openModal, closeModal } from './components/modal.js';
+import {enableValidation, clearValidation} from './components/validation.js';
 
 const cardList = document.querySelector('.places__list'); // место для вставки карточек
 const popups = document.querySelectorAll('.popup'); // все попапы
@@ -22,6 +23,15 @@ const popupCardImg = document.querySelector('.popup_type_image'); // попап 
 const cardName = popupCardImg.querySelector('.popup__image'); // картинка карточки при клике
 const cardDescription = popupCardImg.querySelector('.popup__caption'); // описание карточки при клике
 
+const validationConfig = { // конфиг валидации
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+};
+enableValidation(validationConfig); // вызов валидации
 
 for (let element of initialCards) { // добавление карточек из initialCards
     cardList.append(createCard(element, deleteCard, likeCard, openImgHandler))
@@ -35,7 +45,7 @@ function submitEditProfile(evt) { // редактирование профиля
     evt.preventDefault();
     titleElement.textContent = nameInput.value;
     descriptionElement.textContent = jobInput.value;
-    closeModal(popupEdit)
+    closeModal(popupEdit);
 };
 formEditProfile.addEventListener('submit', submitEditProfile); // submit редактирования профиля
 
@@ -47,7 +57,7 @@ function submitNewPlace(evt) { // добавление новой карточк
     };
     cardList.prepend(createCard(item, deleteCard, likeCard, openImgHandler));
     evt.target.reset();
-    closeModal(popupNewCard)
+    closeModal(popupNewCard);
 }
 addForm.addEventListener('submit', submitNewPlace) // submit добавления карточки
 
@@ -62,8 +72,10 @@ profileEditBtn.addEventListener('click', () => { // Слушатель на кн
     nameInput.value = titleElement.textContent;
     jobInput.value = descriptionElement.textContent;
     openModal(popupEdit);
+    clearValidation(popupEdit, validationConfig)
 });
 
 newPlaceBtn.addEventListener('click', () => { // Слушатель на кнопку +
-    openModal(popupNewCard)
+    openModal(popupNewCard);
+    clearValidation(popupNewCard, validationConfig)
 });
