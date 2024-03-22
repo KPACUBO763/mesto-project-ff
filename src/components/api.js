@@ -3,23 +3,23 @@ const headers = {
     authorization: '76979254-0dab-487c-8237-afe4e26a9148',
     'Content-Type': 'application/json'
 };
-
-const checkRequest = (res) => { // проверка запроса
+ // проверка запроса
+const checkRequest = res => {
     if (res.ok) {
         return res.json()
     }
-    return Promise.reject(`Ошибка: ${res.status}`)
+    return Promise.reject(`Ошибка запроса: ${res.status}`)
 };
-
-const request = (url, options) => { // шаблон запроса с проверкой
-    fetch(`${baseUrl}/${url}`, options.then(checkRequest))
+ // шаблон запроса с проверкой
+const request = (url, options) => {
+    fetch(`${baseUrl}/${url}`, options).then(checkRequest)
 };
-
-export const getInitialCards = () => { // загрузка карточек с сервера
-    return fetch(`${baseUrl}/cards`, { headers })
+ // загрузка карточек с сервера
+export const getInitialCards = () => {
+    return request(`${baseUrl}/cards`, { headers })
 };
-
-export const sendNewCard = item => { // отправка новой карточки
+ // отправка новой карточки
+export const sendNewCard = item => {
     return request(`${baseUrl}/cards`, {
         method: 'POST',
         headers,
@@ -29,33 +29,33 @@ export const sendNewCard = item => { // отправка новой карточ
         })
     })
 };
-
-export const sendDeleteCard = cardId => { // удаление карточки
+ // удаление карточки
+export const sendDeleteCard = cardId => {
     return request(`${baseUrl}/cards/${cardId}`, {
         method: 'DELETE',
         headers
     })
 };
-
-export const sendLikeCard = card => { // отправка лайка карточке
-    return request(`${baseUrl}/cards/likes/${card._id}`, {
+ // отправка лайка карточке
+export const sendLikeCard = cardId => {
+    return request(`${baseUrl}/cards/likes/${cardId}`, {
         method: 'PUT',
         headers
     })
 };
-
-export const sendDeleteLike = card => { // удаление лайка у карточки
-    return request(`${baseUrl}/cards/likes/${card._id}`, {
+ // удаление лайка у карточки
+export const sendDeleteLike = cardId => {
+    return request(`${baseUrl}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers
     })
 };
-
-export const getUserInfo = () => { // получение информации о пользователе
+ // получение информации о пользователе
+export const getUserInfo = () => {
     return request(`${baseUrl}/users/me`, { headers })
 };
-
-export const sendUserInfo = (name, about) => { // отправка информации о пользователе
+ // отправка информации о пользователе
+export const sendUserInfo = (name, about) => {
     return request(`${baseUrl}/users/me`, {
         method: 'PATCH',
         headers,
@@ -65,8 +65,8 @@ export const sendUserInfo = (name, about) => { // отправка информ�
         })
     })
 };
-
-export const sendUserAvatar = link => { // отправка аватара пользователя
+ // отправка аватара пользователя
+export const sendUserAvatar = link => {
     return request(`${baseUrl}/users/me/avatar`, {
         method: 'PATCH',
         headers,

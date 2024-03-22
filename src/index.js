@@ -56,15 +56,16 @@ for (let popup of popups) {
 let userId; // переменная для ID пользователя
 // функция для заполнения профиля при загрузке
 const setUserInfo = data => {
+    userId = data._id;
     titleElement.textContent = data.name;
     descriptionElement.textContent = data.about;
     avatarEditBtn.style.backgroundImage = `url(${data.avatar})`
 };
 // функция для добавления карточек при загрузке
 const getCardList = list => {
-    list.forEach(element => {
+    list.forEach(item => {
         cardList.append(createCard(
-            element,
+            item,
             userId,
             deleteCard,
             likeCard,
@@ -78,11 +79,10 @@ const getCardList = list => {
  // загрузка информации о пользователе и карточек
 Promise.all([getUserInfo(), getInitialCards()])
     .then(([user, cards]) => {
-        userId = user._id;
         setUserInfo(user);
         getCardList(
             cards,
-            user._id,
+            userId,
             deleteCard,
             likeCard,
             openImgHandler,
@@ -110,14 +110,14 @@ formEditProfile.addEventListener('submit', submitEditProfile); // submit ред�
 const submitNewPlace = evt => {
     evt.preventDefault();
     popupBtn.textContent = 'Сохранение...';
-    const item = {
+    const data = {
         name: evt.target['place-name'].value,
         link: evt.target['link'].value
     };
     sendNewCard(data)
-        .then(data => {
+        .then(res => {
             cardList.prepend(createCard(
-                data,
+                res,
                 userId,
                 deleteCard,
                 likeCard,
