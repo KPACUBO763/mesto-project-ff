@@ -16,11 +16,11 @@ const request = (url, options) => {
 };
  // загрузка карточек с сервера
 export const getInitialCards = () => {
-    return request(`${baseUrl}/cards`, { headers })
+    return request('/cards', { headers })
 };
  // отправка новой карточки
 export const sendNewCard = item => {
-    return request(`${baseUrl}/cards`, {
+    return request('/cards', {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -31,32 +31,32 @@ export const sendNewCard = item => {
 };
  // удаление карточки
 export const sendDeleteCard = cardId => {
-    return request(`${baseUrl}/cards/${cardId}`, {
+    return request(`/cards/${cardId}`, {
         method: 'DELETE',
         headers
     })
 };
  // отправка лайка карточке
 export const sendLikeCard = cardId => {
-    return request(`${baseUrl}/cards/likes/${cardId}`, {
+    return request(`/cards/likes/${cardId}`, {
         method: 'PUT',
         headers
     })
 };
  // удаление лайка у карточки
 export const sendDeleteLike = cardId => {
-    return request(`${baseUrl}/cards/likes/${cardId}`, {
+    return request(`/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers
     })
 };
  // получение информации о пользователе
 export const getUserInfo = () => {
-    return request(`${baseUrl}/users/me`, { headers })
+    return request('/users/me', { headers })
 };
  // отправка информации о пользователе
 export const sendUserInfo = (name, about) => {
-    return request(`${baseUrl}/users/me`, {
+    return request('/users/me', {
         method: 'PATCH',
         headers,
         body: JSON.stringify({
@@ -67,7 +67,7 @@ export const sendUserInfo = (name, about) => {
 };
  // отправка аватара пользователя
 export const sendUserAvatar = link => {
-    return request(`${baseUrl}/users/me/avatar`, {
+    return request('/users/me/avatar', {
         method: 'PATCH',
         headers,
         body: JSON.stringify({ avatar: link })
