@@ -82,7 +82,7 @@ Promise.all([getUserInfo(), getInitialCards()])
         setUserInfo(user);
         getCardList(
             cards,
-            userId,
+            user._id,
             deleteCard,
             likeCard,
             openImgHandler,

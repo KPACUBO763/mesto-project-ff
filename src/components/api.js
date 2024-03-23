@@ -16,11 +16,11 @@ const request = (url, options) => {
 };
  // загрузка карточек с сервера
 export const getInitialCards = () => {
-    return request('/cards', { headers })
+    return request(`/cards`, { headers })
 };
  // отправка новой карточки
 export const sendNewCard = item => {
-    return request('/cards', {
+    return request(`/cards`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -52,11 +52,11 @@ export const sendDeleteLike = cardId => {
 };
  // получение информации о пользователе
 export const getUserInfo = () => {
-    return request('/users/me', { headers })
+    return request(`/users/me`, { headers })
 };
  // отправка информации о пользователе
 export const sendUserInfo = (name, about) => {
-    return request('/users/me', {
+    return request(`/users/me`, {
         method: 'PATCH',
         headers,
         body: JSON.stringify({
@@ -67,7 +67,7 @@ export const sendUserInfo = (name, about) => {
 };
  // отправка аватара пользователя
 export const sendUserAvatar = link => {
-    return request('/users/me/avatar', {
+    return request(`/users/me/avatar`, {
         method: 'PATCH',
         headers,
         body: JSON.stringify({ avatar: link })
