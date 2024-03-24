@@ -12,7 +12,7 @@ import {
     sendLikeCard,
     sendDeleteLike
 } from './components/api.js'
-
+// глобальные переменные
 const cardList = document.querySelector('.places__list'); // место для вставки карточек
 const popups = document.querySelectorAll('.popup'); // все попапы
 const titleElement = document.querySelector('.profile__title'); // имя профиля
@@ -52,20 +52,19 @@ enableValidation(validationConfig); // вызов валидации
 for (let popup of popups) {
     popup.classList.add('popup_is-animated');
 }
-
-let userId; // переменная для ID пользователя
-// функция для заполнения профиля при загрузке
+ // переменная для ID пользователя
+let userId;
+ // функция заполнения данных информацией с сервера при загрузке
 const setUserInfo = data => {
-    userId = data._id;
     titleElement.textContent = data.name;
     descriptionElement.textContent = data.about;
     avatarEditBtn.style.backgroundImage = `url(${data.avatar})`
 };
-// функция для добавления карточек при загрузке
-const getCardList = list => {
-    list.forEach(item => {
+// функция для добавления карточек с сервера при загрузке
+const setCardList = cards => {
+    cards.forEach(res => {
         cardList.append(createCard(
-            item,
+            res,
             userId,
             deleteCard,
             likeCard,
@@ -76,26 +75,19 @@ const getCardList = list => {
         ))
     })
 };
- // загрузка информации о пользователе и карточек
+ // загрузка информации о пользователе и карточек с сервера
 Promise.all([getUserInfo(), getInitialCards()])
     .then(([user, cards]) => {
+        userId = user._id;
         setUserInfo(user);
-        getCardList(
-            cards,
-            user._id,
-            deleteCard,
-            likeCard,
-            openImgHandler,
-            sendDeleteCard,
-            sendLikeCard,
-            sendDeleteLike)
+        setCardList(cards)
     })
     .catch(err => console.log('Ошибка: загрузки информации о пользователе и карточек', err));
 // функция редактирования информации в профиле
 const submitEditProfile = evt => {
     evt.preventDefault();
     popupBtn.textContent = 'Сохранение...';
-    sendUserInfo(nameInput.value, jobInput.value)
+    sendUserInfo(nameInput.value, jobInput.value) // отправка данных серверу
         .then(data => {
             profileTitleElement.textContent = data.name;
             profileDescriptionElement.textContent = data.about;
@@ -114,20 +106,22 @@ const submitNewPlace = evt => {
         name: evt.target['place-name'].value,
         link: evt.target['link'].value
     };
-    sendNewCard(data)
+    sendNewCard(data) // отправка данных серверу
         .then(res => {
-            cardList.prepend(createCard(
-                res,
-                userId,
-                deleteCard,
-                likeCard,
-                openImgHandler,
-                sendDeleteCard,
-                sendLikeCard,
-                sendDeleteLike
-            ));
+            cardList.prepend(
+                createCard(
+                    res,
+                    userId,
+                    deleteCard,
+                    likeCard,
+                    openImgHandler,
+                    sendDeleteCard,
+                    sendLikeCard,
+                    sendDeleteLike
+                )
+            );
             closeModal(popupNewCard);
-            evt.target.reset();
+            evt.target.reset() // сброс формы
         })
         .catch(err => console.log('Ошибка добавления новой карточки: ', err))
         .finaly(() => popupBtn.textContent = 'Сохранить')
@@ -137,17 +131,18 @@ addForm.addEventListener('submit', submitNewPlace); // submit добавлени
 const submitNewAvatar = evt => {
     evt.preventDefault();
     popupBtn.textContent = 'Сохранение...';
-    sendUserAvatar(avatarForm.elements['avatar-link'].value)
+    sendUserAvatar(evt.target['avatar-link'].value)
         .then(data => {
             avatarEditBtn.style.backgroundImage = `url(${data.avatar})`;
             closeModal(popupAvatar)
+            evt.target.reset() // сброс формы
         })
         .catch(err => console.log('Ошибка изменения аватара: ', err))
         .finaly(() => popupBtn.textContent = 'Сохранить')
 };
 avatarForm.addEventListener('submit', submitNewAvatar) // submit добавления аватара
-
-const openImgHandler = evt => { // обработчик попапа карточки при клике
+ // обработчик попапа карточки при клике
+const openImgHandler = evt => {
     cardName.alt = evt.target.alt;
     cardName.src = evt.target.src;
     cardDescription.textContent = evt.target.alt;
@@ -155,18 +150,18 @@ const openImgHandler = evt => { // обработчик попапа карто�
 };
 // слушатели на формы
 avatarEditBtn.addEventListener('click', () => { // Слушатель на кнопку редактирования аватара
-    clearValidation(avatarForm, validationConfig);
+    clearValidation(avatarForm, validationConfig); // сброс валидации
     openModal(popupAvatar)
 });
 
 profileEditBtn.addEventListener('click', () => { // Слушатель на кнопку редактирования профиля
     nameInput.value = titleElement.textContent;
     jobInput.value = descriptionElement.textContent;
-    clearValidation(popupEdit, validationConfig);
+    clearValidation(popupEdit, validationConfig); // сброс валидации
     openModal(popupEdit)
 });
 
 newPlaceBtn.addEventListener('click', () => { // Слушатель на кнопку +
-    clearValidation(popupNewCard, validationConfig);
+    clearValidation(popupNewCard, validationConfig); // сброс валидации
     openModal(popupNewCard);
 });
