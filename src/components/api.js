@@ -12,7 +12,7 @@ const checkRequest = res => {
 };
  // шаблон запроса с проверкой
 const request = (url, options) => {
-    fetch(`${baseUrl}/${url}`, options).then(checkRequest)
+    return fetch(`${baseUrl}/${url}`, options).then(checkRequest)
 };
  // загрузка карточек с сервера
 export const getInitialCards = () => {
