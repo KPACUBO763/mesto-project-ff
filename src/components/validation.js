@@ -1,6 +1,6 @@
 const showInputError = (formElement, inputElement, validationConfig) => { // добавление сообщения об ошибке
     const error = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.add(validationConfig.к);
+    inputElement.classList.add(validationConfig.inputErrorClass);
     error.textContent = inputElement.validationMessage;
     error.classList.add(validationConfig.errorClass)
 };
