@@ -4,7 +4,7 @@ export const deleteCard = evt => {
 };
  // обработчик лайка карточки
 export const likeCard = evt => {
-    evt.classList.toggle('card__like-button_is-active');
+    evt.target.classList.toggle('card__like-button_is-active');
 };
 // Создание карточки
 export const createCard = (
