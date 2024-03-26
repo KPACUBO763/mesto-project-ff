@@ -1,6 +1,6 @@
  // Удаление карточки
 export const deleteCard = evt => {
-    evt.closest('.card').remove();
+    evt.target.closest('.card').remove();
 };
  // обработчик лайка карточки
 export const likeCard = evt => {
