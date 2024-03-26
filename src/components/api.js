@@ -30,22 +30,22 @@ export const sendNewCard = item => {
     })
 };
  // удаление карточки
-export const sendDeleteCard = cardId => {
-    return request(`/cards/${cardId}`, {
+export const sendDeleteCard = item => {
+    return request(`/cards/${item}`, {
         method: 'DELETE',
         headers
     })
 };
  // отправка лайка карточке
-export const sendLikeCard = cardId => {
-    return request(`/cards/likes/${cardId}`, {
+export const sendLikeCard = item => {
+    return request(`/cards/likes/${item._id}`, {
         method: 'PUT',
         headers
     })
 };
  // удаление лайка у карточки
-export const sendDeleteLike = cardId => {
-    return request(`/cards/likes/${cardId}`, {
+export const sendDeleteLike = item => {
+    return request(`/cards/likes/${item._id}`, {
         method: 'DELETE',
         headers
     })

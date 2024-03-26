@@ -56,14 +56,14 @@ export const createCard = (
                 likeCounter.textContent = data.likes.length; // кол-во лайков
                 likeCard(evt)
             })
-            .catch(err => console.log('Ошибка при удалении лайка: ', err));
+            .catch(err => console.log('Ошибка при удалении лайка: ', err))
         } else { // добавление лайка
             sendLikeCard(item)
             .then(data => {
                 likeCounter.textContent = data.likes.length; // кол-во лайков
                 likeCard(evt)
             })
-            .catch(err => console.log('Ошибка при добавлении лайка: ', err));
+            .catch(err => console.log('Ошибка при добавлении лайка: ', err))
         }
     });
     return cardElement

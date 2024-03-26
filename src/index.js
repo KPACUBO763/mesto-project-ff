@@ -88,13 +88,13 @@ const submitEditProfile = evt => {
     evt.preventDefault();
     popupBtn.textContent = 'Сохранение...';
     sendUserInfo(nameInput.value, jobInput.value) // отправка данных серверу
-        .then(data => {
-            profileTitleElement.textContent = data.name;
-            profileDescriptionElement.textContent = data.about;
-            closeModal(popupEdit)
-        })
-        .catch(err => console.log('Ошибка редактирования профиля: ', err))
-        .finaly(() => popupBtn.textContent = 'Сохранить')
+    .then(data => {
+        profileTitleElement.textContent = data.name;
+        profileDescriptionElement.textContent = data.about;
+        closeModal(popupEdit)
+    })
+    .catch(err => console.log('Ошибка редактирования профиля: ', err))
+    .finally(() => popupBtn.textContent = 'Сохранить')
 
 };
 formEditProfile.addEventListener('submit', submitEditProfile); // submit редактирования профиля
@@ -107,24 +107,24 @@ const submitNewPlace = evt => {
         link: evt.target['link'].value
     };
     sendNewCard(data) // отправка данных серверу
-        .then(res => {
-            cardList.prepend(
-                createCard(
-                    res,
-                    userId,
-                    deleteCard,
-                    likeCard,
-                    openImgHandler,
-                    sendDeleteCard,
-                    sendLikeCard,
-                    sendDeleteLike
-                )
-            );
-            closeModal(popupNewCard);
-            evt.target.reset() // сброс формы
-        })
-        .catch(err => console.log('Ошибка добавления новой карточки: ', err))
-        .finaly(() => popupBtn.textContent = 'Сохранить')
+    .then(res => {
+        cardList.prepend(
+            createCard(
+                res,
+                userId,
+                deleteCard,
+                likeCard,
+                openImgHandler,
+                sendDeleteCard,
+                sendLikeCard,
+                sendDeleteLike
+            )
+        );
+        closeModal(popupNewCard);
+        evt.target.reset() // сброс формы
+    })
+    .catch(err => console.log('Ошибка добавления новой карточки: ', err))
+    .finally(() => popupBtn.textContent = 'Сохранить')
 };
 addForm.addEventListener('submit', submitNewPlace); // submit добавления карточки
 // функция изменения аватара
@@ -132,13 +132,13 @@ const submitNewAvatar = evt => {
     evt.preventDefault();
     popupBtn.textContent = 'Сохранение...';
     sendUserAvatar(evt.target['avatar-link'].value)
-        .then(data => {
-            avatarEditBtn.style.backgroundImage = `url(${data.avatar})`;
-            closeModal(popupAvatar)
-            evt.target.reset() // сброс формы
-        })
-        .catch(err => console.log('Ошибка изменения аватара: ', err))
-        .finaly(() => popupBtn.textContent = 'Сохранить')
+    .then(data => {
+        avatarEditBtn.style.backgroundImage = `url(${data.avatar})`;
+        closeModal(popupAvatar)
+        evt.target.reset() // сброс формы
+    })
+    .catch(err => console.log('Ошибка изменения аватара: ', err))
+    .finally(() => popupBtn.textContent = 'Сохранить')
 };
 avatarForm.addEventListener('submit', submitNewAvatar) // submit добавления аватара
  // обработчик попапа карточки при клике
